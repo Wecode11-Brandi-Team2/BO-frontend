@@ -71,17 +71,18 @@
 </template>
 
 <script>
-import axios from 'axios';
-import { mapActions } from 'vuex';
-import { config } from '../../config.js';
+// import axios from 'axios';
+// import { mapActions } from 'vuex';
+// import { config } from '../../config.js';
 import { ValidationObserver, configure } from 'vee-validate';
 import {
   ValidationProvider,
   extend
 } from 'vee-validate/dist/vee-validate.full.esm';
 import { required } from 'vee-validate/dist/rules';
+import { loginApi } from '@/api';
 
-const adminStore = 'adminStore';
+// const adminStore = 'adminStore';
 
 configure({
   classes: {
@@ -108,7 +109,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(adminStore, ['login']),
+    // ...mapActions(adminStore, ['login']),
 
     checkValid() {
       if ((this.idValue.length === 0) | (this.pwValue.length === 0)) {
@@ -116,21 +117,36 @@ export default {
       }
     },
     onSubmit() {
-      axios
-        .post(`${config.api}/api/seller/login`, {
-          loginID: this.idValue,
-          password: this.pwValue
-        })
+      loginApi
+        .login({ loginID: this.idValue, password: this.pwValue })
         .then(res => {
-          console.log(res);
+          console.log(res.data);
           if (res.data.access_token) {
-            console.log('login acc');
-            this.login(res.data.access_token);
+            localStorage.setItem('access_token', res.data.access_token);
+            // console.log('login acc');
+            // this.login(res.data.access_token);
           }
         })
         .then(() => {
           this.$router.push('/');
+        })
+        .catch(err => {
+          console.log(err.response);
+          console.log(err.response.message);
+          alert('로그인에 실패하였습니다.');
         });
+      // axios
+      //   .post(`${config.api}/api/seller/login`, {
+      //     loginID: this.idValue,
+      //     password: this.pwValue
+      //   })
+      // .then(res => {
+      //   console.log(res);
+      //   if (res.data.access_token) {
+      //     localStorage.setItem('access_token', res.data.access_token);
+      //     this.login(res.data.access_token);
+      //   }
+      // })
     }
   }
 };

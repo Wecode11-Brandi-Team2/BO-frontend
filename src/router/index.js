@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-
 import ProductRegist from '../pages/ProductRegist';
 import MemberLookup from '../pages/MemberLookup';
 import SellerModify from '../pages/SellerModify';
