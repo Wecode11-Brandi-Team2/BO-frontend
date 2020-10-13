@@ -1,6 +1,7 @@
 /* eslint-disable vue/no-unused-components */
 <template>
   <div class="join-info">
+    <Spinner v-show="isLoading" />
     <validation-observer v-slot="{ invalid }">
       <form class="join-info-container" @submit.prevent="onSubmit">
         <h1>셀러회원 가입</h1>
@@ -69,7 +70,7 @@
             <i class="fa fa-phone"></i>
             <validation-provider
               name="담당자 전화번호"
-              rules="required|numeric|max:11"
+              rules="required|numeric|max:12"
               v-slot="{ errors, classes }"
             >
               <input
@@ -98,7 +99,7 @@
               :label="idx + 1"
               :buttonName="buttonName"
               :key="idx"
-              @change="changeValue"
+              @change="radioUpdate"
             />
           </div>
           <div class="input-container">
@@ -186,11 +187,13 @@
 import ButtonBlue from '../components/ButtonBlue';
 import ButtonRed from '../components/ButtonRed';
 import RadioBtn from '../components/RadioBtn';
+import Spinner from '../components/Spinner';
 import axios from 'axios';
-import { config } from '../../config.js';
+// import { config } from '../../config.js';
 import '../../vee-validate.js';
 import { ValidationObserver } from 'vee-validate';
 import { ValidationProvider } from 'vee-validate/dist/vee-validate.full.esm';
+import { loginApi } from '@/api';
 
 export default {
   name: 'Signup',
@@ -199,7 +202,8 @@ export default {
     redbutton: ButtonRed,
     'radio-btn': RadioBtn,
     'validation-provider': ValidationProvider,
-    'validation-observer': ValidationObserver
+    'validation-observer': ValidationObserver,
+    Spinner
   },
   data() {
     return {
@@ -224,12 +228,13 @@ export default {
         '뷰티'
       ],
       selectedRadio: 1,
-      serverID: ''
+      serverID: '',
+      isLoading: false
     };
   },
 
   methods: {
-    changeValue: function(idx) {
+    radioUpdate: function(idx) {
       this.selectedRadio = idx;
     },
     alertWarn(e) {
@@ -251,26 +256,55 @@ export default {
         ...this.submitValue,
         ['attribute_id']: this.selectedRadio
       };
-      console.log(
-        'this.submitValue',
-        JSON.parse(JSON.stringify(this.submitValue))
-      );
+      // console.log(
+      //   'this.submitValue',
+      //   JSON.parse(JSON.stringify(this.submitValue))
+      // );
       return this.sendSubmit(this.submitValue);
     },
     sendSubmit(val) {
-      axios
-        .post(`${config.api}/api/seller/signup`, val)
+      // const self = this;
+      // axios.interceptors.request.use(
+      //   function(config) {
+      //     self.isLoading = true;
+      //     return config;
+      //   },
+      //   function(error) {
+      //     return Promise.reject(error);
+      //   }
+      // );
+      loginApi
+        .signup(val)
         .then(res => {
           if (res.status === 200) {
-            console.log('status 200');
+            console.log(res);
+            this.isLoading = false;
             this.$router.push('/admin/login');
           }
         })
         .catch(err => {
+          console.log(err.response);
+          console.log(err.response.data);
           if (err.response.data['MESSAGE'] === 'DUPLICATED ID') {
+            this.isLoading = false;
             this.serverID = this.infoInput.seller_loginID;
           }
         });
+      // axios
+      //   .post(`${config.signup}/api/seller/signup`, val)
+      //   .then(res => {
+      //     if (res.status === 200) {
+      //       console.log(res);
+      //       this.isLoading = false;
+      //       this.$router.push('/admin/login');
+      //     }
+      //   })
+      //   .catch(err => {
+      //     if (err.response.data['MESSAGE'] === 'DUPLICATED ID') {
+      //       this.isLoading = false;
+      //       this.serverID = this.infoInput.seller_loginID;
+      //     }
+      //   });
     }
   }
 };

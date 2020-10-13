@@ -1,10 +1,22 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://10.251.1.182:5000/api'
+  baseURL: 'http://10.251.1.138:5000/api',
+  headers: {
+    Authorization: localStorage.getItem('access_token')
+  }
   // headers: {
-  //   Authorization: localStorage.getItem('access_token')
+  //   Authorization:
+  //     'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzZWxsZXJfbm8iOjQxOH0.JvlKJET7Okt5VwwUA95YtIkZX8O9-RBfSiLM5vT8hbM',
+  //   'Content-Type': 'multipart/form-data'
   // }
+});
+
+const hapi = axios.create({
+  baseURL: 'http://10.251.1.129:5000/api',
+  headers: {
+    Authorization: localStorage.getItem('access_token')
+  }
 });
 
 export const orderApi = {
@@ -19,13 +31,33 @@ export const orderApi = {
 };
 
 export const productApi = {
+  getSellerName: name => {
+    return api.get('/product/seller', {
+      params: {
+        q: name
+      }
+    });
+  },
+  getFirCategory: sellerAttrId => {
+    return api.get('/product/category', {
+      params: {
+        seller_attr_id: sellerAttrId
+      }
+    });
+  },
+  getSecCategory: categoryId => {
+    return api.get('/product/category', {
+      params: {
+        f_category_id: categoryId
+      }
+    });
+  },
+  registProduct: form => {
+    api.post('/product', form);
+  },
   getProducts: (queries = {}) =>
-    api.get('/product', {
+    api.get('/products', {
       params: queries
-    }),
-  registProduct: info =>
-    api.post('/product', {
-      body: info
     })
 };
 
@@ -94,4 +126,7 @@ export const couponApi = {
     return api.get(requestUrl);
   },
   getTotalNumber: () => api.get('/coupon/count')
+export const loginApi = {
+  login: val => hapi.post('/seller/login', val),
+  signup: val => hapi.post('/seller/signup', val)
 };

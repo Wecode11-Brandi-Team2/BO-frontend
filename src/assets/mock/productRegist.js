@@ -17,7 +17,18 @@ export const option = {
     'Orange',
     'Mint',
     'Brown',
-    'Red Brown'
+    'Red Brown',
+    'Yellow Brown',
+    'Light Purple',
+    'Purple',
+    'Violet',
+    'Lavender',
+    'Grey',
+    'Light Grey',
+    'Dark Grey',
+    'Brick',
+    'Dark Green',
+    'Cream'
   ],
   size_option: [
     'XXS',
