@@ -26,6 +26,25 @@ export const REVIEW_SORT = {
   NEW_REGIST: '등록일시 최신순',
   NEW_EDIT: '수정일시 최신순'
 };
+
+export const SELLER_ATTR = {
+  1: '입점대기',
+  2: '입점',
+  3: '퇴점',
+  4: '퇴점대기',
+  5: '휴점'
+};
+
+export const SELLER_TYPE = {
+  1: '쇼핑몰',
+  2: '마켓',
+  3: '로드맵',
+  4: '디자이너브랜드',
+  5: '제너럴브랜드',
+  6: '내셔널브랜드',
+  7: '뷰티'
+};
+
 export default {
   ORDER_SELECT,
   PRODUCT_SELECT,

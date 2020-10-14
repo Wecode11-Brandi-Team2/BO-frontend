@@ -32,10 +32,12 @@ export default {
   computed: {
     ...mapState({
       getDateFrom(state, getters) {
-        return getters[NAMESPACE[this.namespace] + '/getDateFrom'];
+        return getters[NAMESPACE[this.namespace] + '/getValue'](
+          'filterDateFrom'
+        );
       },
       getDateTo(state, getters) {
-        return getters[NAMESPACE[this.namespace] + '/getDateTo'];
+        return getters[NAMESPACE[this.namespace] + '/getValue']('filterDateTo');
       }
     }),
     from: {
@@ -62,17 +64,19 @@ export default {
   },
   methods: {
     ...mapActions({
-      setDateFrom(dispatch, payload) {
-        return dispatch(NAMESPACE[this.namespace] + '/setDateFrom', payload);
+      setDateFrom(dispatch, value) {
+        return dispatch(NAMESPACE[this.namespace] + '/setValue', {
+          key: 'filterDateFrom',
+          value
+        });
       },
-      setDateTo(dispatch, payload) {
-        return dispatch(NAMESPACE[this.namespace] + '/setDateTo', payload);
+      setDateTo(dispatch, value) {
+        return dispatch(NAMESPACE[this.namespace] + '/setValue', {
+          key: 'filterDateTo',
+          value
+        });
       }
-    }),
-    resetDate() {
-      this.setDateFrom('');
-      this.setDateTo('');
-    }
+    })
   }
 };
 </script>

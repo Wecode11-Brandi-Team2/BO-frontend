@@ -37,14 +37,12 @@ export const PAYMENT_COMP = [
   {
     type: 2,
     title: '주문완료일',
-    values: ORDER_DATE.values,
-    default: 3
+    values: ORDER_DATE.values
   },
   {
     type: 4,
     title: '셀러속성',
-    values: SELLER_TYPE.values,
-    default: -1
+    values: SELLER_TYPE.values
   }
 ];
 export const PREPARE = [
@@ -52,14 +50,12 @@ export const PREPARE = [
   {
     type: 2,
     title: '결제완료일',
-    values: ORDER_DATE.values,
-    default: 3
+    values: ORDER_DATE.values
   },
   {
     type: 4,
     title: '셀러속성',
-    values: SELLER_TYPE.values,
-    default: -1
+    values: SELLER_TYPE.values
   }
 ];
 export const DELIVERY = [
@@ -67,14 +63,12 @@ export const DELIVERY = [
   {
     type: 2,
     title: '배송시작일',
-    values: SHIP_DATE.values,
-    default: 3
+    values: SHIP_DATE.values
   },
   {
     type: 4,
     title: '셀러속성',
-    values: SELLER_TYPE.values,
-    default: -1
+    values: SELLER_TYPE.values
   }
 ];
 export const DELIVERY_COMP = [
@@ -82,14 +76,12 @@ export const DELIVERY_COMP = [
   {
     type: 2,
     title: '배송완료일',
-    values: SHIP_DATE.values,
-    default: 3
+    values: SHIP_DATE.values
   },
   {
     type: 4,
     title: '셀러속성',
-    values: SELLER_TYPE.values,
-    default: -1
+    values: SELLER_TYPE.values
   }
 ];
 export const REFUND_REQ = [
@@ -97,21 +89,18 @@ export const REFUND_REQ = [
   {
     type: 2,
     title: '환불요청일',
-    values: REFUND_DATE.values,
-    default: 3
+    values: REFUND_DATE.values
   },
   {
     type: 3,
     title: '환불사유',
-    key: 'RefundReason',
-    values: REFUND_REASON.values,
-    default: -1
+    key: 'filterRefndReason',
+    values: REFUND_REASON.values
   },
   {
     type: 4,
     title: '셀러속성',
-    values: SELLER_TYPE.values,
-    default: -1
+    values: SELLER_TYPE.values
   }
 ];
 export const REFUND_COMP = [
@@ -119,21 +108,18 @@ export const REFUND_COMP = [
   {
     type: 2,
     title: '환불완료일',
-    values: REFUND_DATE.values,
-    default: 3
+    values: REFUND_DATE.values
   },
   {
     type: 3,
     title: '환불사유',
-    key: 'RefundReason',
-    values: REFUND_REASON.values,
-    default: -1
+    key: 'filterRefndReason',
+    values: REFUND_REASON.values
   },
   {
     type: 4,
     title: '셀러속성',
-    values: SELLER_TYPE.values,
-    default: -1
+    values: SELLER_TYPE.values
   }
 ];
 export const ORDER_CANCEL = [
@@ -142,21 +128,18 @@ export const ORDER_CANCEL = [
     type: 2,
     title: '주문취소완료일',
     values: ORDER_CANCEL_DATE.values,
-    tip: '주문취소 완료 기간은 최대 90일까지만 설정 가능합니다.',
-    default: 3
+    tip: '주문취소 완료 기간은 최대 90일까지만 설정 가능합니다.'
   },
   {
     type: 3,
     title: '주문취소사유',
-    key: 'CancelReason',
-    values: ORDER_CANCEL_REASON.values,
-    default: -1
+    key: 'filterCancelReason',
+    values: ORDER_CANCEL_REASON.values
   },
   {
     type: 4,
     title: '셀러속성',
-    values: SELLER_TYPE.values,
-    default: -1
+    values: SELLER_TYPE.values
   }
 ];
 export const PRODUCT_MANAGE = [
@@ -167,36 +150,32 @@ export const PRODUCT_MANAGE = [
   {
     type: 6,
     title: '셀러명',
-    key: 'SellerName',
+    key: 'mdName',
     values: '셀러명을 입력하세요'
   },
   { type: 1, title: '', values: PRODUCT_SELECT },
   {
     type: 4,
     title: '셀러속성',
-    values: SELLER_TYPE.values,
-    default: -1
+    values: SELLER_TYPE.values
   },
   {
     type: 3,
     title: '판매여부',
-    key: 'SellYn',
-    values: SALES.values,
-    default: -1
+    key: 'sellYn',
+    values: SALES.values
   },
   {
     type: 3,
     title: '진열여부',
-    key: 'ExhibitionYn',
-    values: DISPLAY.values,
-    default: -1
+    key: 'exhibitionYn',
+    values: DISPLAY.values
   },
   {
     type: 3,
     title: '할인여부',
-    key: 'DiscountYn',
-    values: DISCOUNT.values,
-    default: -1
+    key: 'discountYn',
+    values: DISCOUNT.values
   }
 ];
 export const QNA = [
@@ -204,15 +183,13 @@ export const QNA = [
   {
     type: 3,
     title: '문의유형',
-    key: 'Inquiry',
-    values: REQ_TYPE.values,
-    default: -1
+    key: 'inquiryType',
+    values: REQ_TYPE.values
   },
   {
     type: 2,
     title: '등록일',
-    values: QNA_DATE.values,
-    default: 30
+    values: QNA_DATE.values
   }
 ];
 export const REVIEW = [
@@ -220,10 +197,9 @@ export const REVIEW = [
   {
     type: 7,
     select: { regist: '등록일', edit: '수정일' },
-    values: REVIEW_DATE.values,
-    default: 7
+    values: REVIEW_DATE.values
   },
-  { type: 8, title: '정렬필터', key: 'InquiryType', values: REVIEW_SORT }
+  { type: 8, title: '정렬필터', key: 'inquiryType', values: REVIEW_SORT }
 ];
 export default {
   PAYMENT_COMP,

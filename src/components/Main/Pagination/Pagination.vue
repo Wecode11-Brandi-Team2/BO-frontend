@@ -7,7 +7,7 @@
         index === pageText.length - 1 && 'last',
         page === button && 'current'
       ]"
-      :key="button"
+      :key="button + index"
       v-for="(button, index) of pageText"
       @click="searchByPage({ status: orderStatus, page: button })"
     >

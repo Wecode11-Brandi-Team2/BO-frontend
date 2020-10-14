@@ -34,7 +34,7 @@ export const router = new VueRouter({
       component: CouponLookup
     },
     {
-      path: '/account/:type',
+      path: '/account/:subMenu',
       name: 'MemberLookup',
       component: MemberLookup
     },

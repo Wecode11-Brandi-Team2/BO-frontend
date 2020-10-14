@@ -103,10 +103,12 @@ export default {
       }
     }),
     searchResult() {
-      console.log(this.orderStatus);
       this.search(this.orderStatus);
-      console.log(this.queries);
-      this.$router.push({ query: this.queries });
+      if (this.queries.dateValue)
+        this.queries.dateValue = this.queries.dateValue.toString();
+      if (JSON.stringify(this.$route.query) !== JSON.stringify(this.queries)) {
+        this.$router.push({ query: this.queries });
+      }
     }
   }
 };

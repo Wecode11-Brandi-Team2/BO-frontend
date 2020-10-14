@@ -33,6 +33,69 @@ export const ORDER_MAP = {
   actions: 'Actions'
 };
 
+export const PRODUCT_MAP = {
+  created_at: '등록일',
+  main_img: '대표이미지',
+  name: '상품명',
+  product_code: '상품코드',
+  id: '상품번호',
+  attribution_name: '셀러속성',
+  korean_name: '셀러명',
+  price: '판매가',
+  discount_price: '할인가',
+  is_on_sale: '판매여부',
+  is_displayed: '진열여부',
+  is_promotion: '할인여부'
+};
+
+export const QNA_MAP = {
+  question_id: '글번호',
+  type_name: '문의유형',
+  created_at: '등록일',
+  phone_number: '전화번호',
+  name: '상품명',
+  korean_name: '셀러명',
+  content: '질문',
+  user_id: '회원번호'
+};
+
+export const REVIEW_MAP = {
+  review_id: '글번호',
+  korean_name: '셀러명',
+  product_id: '상품번호',
+  product_name: '상품명',
+  login_id: '회원닉네임',
+  content: '리뷰내용',
+  created_at: '등록일시',
+  updated_at: '수정일시'
+};
+
+export const MEMBER_MAP = {
+  id: '회원번호',
+  login_id: '회원명',
+  phone_number: '휴대폰',
+  email: '이메일',
+  created_at: '등록일'
+};
+
+export const SELLER_MAP = {
+  seller_id: '번호',
+  login_id: '셀러아이디',
+  eng_name: '영문이름',
+  korean_name: '한글이름',
+  name: '담당자이름',
+  seller_status_id: '셀러상태',
+  email: '담당자이메일',
+  seller_attribute_id: '셀러속성',
+  product_count: '상품개수',
+  start_at: '등록일시'
+};
+
 export default {
-  ORDER_MAP
+  ORDER_MAP,
+  PRODUCT_MAP,
+  QNA_MAP,
+  REVIEW_MAP,
+  MEMBER_MAP,
+  SELLER_MAP
 };

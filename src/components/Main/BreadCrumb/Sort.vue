@@ -31,7 +31,7 @@ export default {
   computed: {
     ...mapState({
       getFilterOrder(state, getters) {
-        return getters[NAMESPACE[this.namespace] + `/getFilterOrder`];
+        return getters[NAMESPACE[this.namespace] + `/getValue`]('filterOrder');
       }
     }),
     sort() {

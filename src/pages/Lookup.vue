@@ -7,7 +7,12 @@
     </h3>
     <FilterBox :filters="filters" :orderStatus="orderStatus" />
     <BreadCrumb :orderStatus="orderStatus" />
-    <Table :table="table" :orderStatus="orderStatus" />
+    <Table
+      :table="table"
+      :tableMap="tableMap"
+      :tableId="tableId"
+      :orderStatus="orderStatus"
+    />
   </div>
 </template>
 
@@ -17,7 +22,7 @@ import FilterBox from '@/components/Main/FilterBox';
 import BreadCrumb from '@/components/Main/BreadCrumb';
 import Table from '@/components/Main/Table/Table';
 import PageLoading from '@/components/Loading/PageLoading';
-import { mapState, mapActions } from 'vuex';
+import { mapActions } from 'vuex';
 import NAMESPACE from '@/store/modules/types';
 
 export default {
@@ -27,27 +32,28 @@ export default {
     Table,
     PageLoading
   },
-  computed: {
-    ...mapState({
-      getNamespace(state, getters) {
-        return getters[NAMESPACE[this.namespace] + `/getNamespace`];
-      }
-    }),
-    currMain() {
-      return this.getNamespace;
-    }
-  },
+
   data() {
-    console.log(this.$route);
-    const { main, sub, filters, sort, table, orderStatus } = path[
-      this.$route.params.subMenu
-    ];
+    const {
+      main,
+      sub,
+      filters,
+      sort,
+      table,
+      tableMap,
+      tableId,
+      orderStatus
+    } = path[this.$route.params.subMenu];
+
+    console.log(table, tableMap);
     return {
       main,
       sub,
       filters,
       sort,
       table,
+      tableMap,
+      tableId,
       orderStatus: orderStatus ? orderStatus : 0,
       namespace: this.$route.params.subMenu,
       done: true
@@ -55,23 +61,44 @@ export default {
   },
   methods: {
     ...mapActions({
+      setValue(dispatch, key, value) {
+        return dispatch(NAMESPACE[this.namespace] + `/setValue`, {
+          key,
+          value
+        });
+      },
       reset(dispatch) {
         return dispatch(NAMESPACE[this.namespace] + '/reset');
-      },
-      setCurMain(dispatch, payload) {
-        return dispatch(NAMESPACE[this.namespace] + '/setNamespace', payload);
       }
     })
   },
   mounted() {
-    if (this.currMain !== this.$route.params.subMenu) {
-      this.reset();
+    this.reset();
+    if (Object.keys(this.$route.query).length < 1) {
       this.done = false;
 
       setTimeout(() => {
-        this.setCurMain(this.$route.params.subMenu);
         this.done = true;
       }, 800);
+    } else {
+      console.log(this.$route.query);
+      for (let [key, value] of Object.entries(this.$route.query)) {
+        switch (true) {
+          case /^(19|20)\d{2}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[0-1])$/.test(
+            value
+          ):
+            value = new Date(value);
+            break;
+          case key === 'mdSeNo' && value.length > 0:
+            console.log(value);
+            value = value.split(',').map(v => +v);
+            break;
+          case /-?\d+$/.test(value):
+            value = +value;
+            break;
+        }
+        this.setValue(key, value);
+      }
     }
   }
 };

@@ -52,19 +52,26 @@ export default {
   data() {
     return {
       menus,
-      checkedMenu: this.$route.params.mainMenu,
-      subMenu: this.$route.params.subMenu,
-      fold: false
+      checkedMenu: this.$route.params.mainMenu
+        ? this.$route.params.mainMenu
+        : 'account',
+      subMenu: this.$route.params.subMenu
     };
   },
   computed: {
     mainMenu() {
-      return this.$route.params.mainMenu;
+      return this.$route.params.mainMenu
+        ? this.$route.params.mainMenu
+        : 'account';
     }
   },
   methods: {
     changeCurrMain(main) {
       this.checkedMenu = this.checkedMenu === main ? '' : main;
+      if (this.checkedMenu === 'home') {
+        this.checkedMenu = 'account';
+        window.location.reload();
+      }
     },
     changeCurrSub(sub) {
       this.subMenu = sub;
@@ -73,6 +80,12 @@ export default {
     toggleFold() {
       this.fold = !this.fold;
     }
+  },
+  mounted() {
+    this.checkedMenu = this.$route.params.mainMenu
+      ? this.$route.params.mainMenu
+      : 'account';
+    this.subMenu = this.$route.params.subMenu;
   }
 };
 </script>

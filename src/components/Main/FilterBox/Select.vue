@@ -33,7 +33,7 @@ export default {
   computed: {
     ...mapState({
       getValue(state, getters) {
-        return getters[NAMESPACE[this.namespace] + `/get${this.filterKey}`];
+        return getters[NAMESPACE[this.namespace] + `/getValue`](this.filterKey);
       }
     }),
     value() {
@@ -43,10 +43,10 @@ export default {
   methods: {
     ...mapActions({
       setValue(dispatch, value) {
-        return dispatch(
-          NAMESPACE[this.namespace] + `/set${this.filterKey}`,
+        return dispatch(NAMESPACE[this.namespace] + `/setValue`, {
+          key: this.filterKey,
           value
-        );
+        });
       }
     }),
     setSearch(e) {

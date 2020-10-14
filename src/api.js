@@ -1,15 +1,11 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://10.251.1.138:5000/api',
+  baseURL: 'http://52.79.239.101:5000/api',
   headers: {
-    Authorization: localStorage.getItem('access_token')
+    Authorization:
+      'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzZWxsZXJfbm8iOjQxOH0.JvlKJET7Okt5VwwUA95YtIkZX8O9-RBfSiLM5vT8hbM'
   }
-  // headers: {
-  //   Authorization:
-  //     'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzZWxsZXJfbm8iOjQxOH0.JvlKJET7Okt5VwwUA95YtIkZX8O9-RBfSiLM5vT8hbM',
-  //   'Content-Type': 'multipart/form-data'
-  // }
 });
 
 const hapi = axios.create({
@@ -56,26 +52,36 @@ export const productApi = {
     api.post('/product', form);
   },
   getProducts: (queries = {}) =>
-    api.get('/products', {
+    api.get('/product/products', {
       params: queries
-    })
+    }),
+  getExcelFile: productIds => {
+    api.get('/product/excel', {
+      params: {
+        product_id: productIds
+      }
+    });
+  }
 };
 
 export const inquiryApi = {
   getQna: queries =>
-    api.get('/inquiry/qna', {
+    api.get('/qna/', {
       params: queries
     }),
   getReviews: queries =>
-    api.get('/inquiry/review', {
+    api.get('/review/', {
       params: queries
     })
 };
 
 export const accountApi = {
-  getMembers: () => api.get('/account/member'),
+  getMembers: (queries = {}) =>
+    api.get('/user/', {
+      params: queries
+    }),
   getSellers: (queries = {}) =>
-    api.get('/account/seller', {
+    api.get('/seller/sellers', {
       params: queries
     })
 };

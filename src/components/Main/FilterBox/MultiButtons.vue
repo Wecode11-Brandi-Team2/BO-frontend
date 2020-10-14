@@ -31,7 +31,7 @@ export default {
   computed: {
     ...mapState({
       getSellerType(state, getters) {
-        return getters[NAMESPACE[this.namespace] + '/getSellerType'];
+        return getters[NAMESPACE[this.namespace] + '/getValue']('mdSeNo');
       }
     }),
     sellerType() {
@@ -47,7 +47,10 @@ export default {
   methods: {
     ...mapActions({
       setSellerType(dispatch, value) {
-        return dispatch(NAMESPACE[this.namespace] + '/setSellerType', value);
+        return dispatch(NAMESPACE[this.namespace] + '/setValue', {
+          key: 'mdSeNo',
+          value
+        });
       }
     }),
     setChecked(key) {

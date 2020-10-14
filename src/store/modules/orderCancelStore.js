@@ -1,11 +1,10 @@
 import { orderApi } from '@/api';
-import { fromNow, dateToString, makeUp } from '../_utils';
+import { fromNow, makeUp, makeQs } from '../_utils';
 
 export default {
   namespaced: true,
   state: {
     isLoading: false,
-    namespace: '',
     selectFilter: '',
     filterKeyword: '',
     dateValue: 3,
@@ -23,113 +22,16 @@ export default {
 
   getters: {
     getFilters(state) {
-      const filters = { ...makeUp(state) };
-      delete filters.filterOrder;
-      delete filters.filterLimit;
-      if (filters.filterDateFrom) {
-        filters.from = dateToString(filters.filterDateFrom);
-        delete filters.filterDateFrom;
-      }
-      if (filters.filterDateTo) {
-        filters.to = dateToString(filters.filterDateTo);
-        delete filters.filterDateTo;
-      }
-      if (filters.page === 1) delete filters.page;
-      filters.mdSeNo = filters.mdSeNo.join(',');
-      return filters;
+      return makeQs(state, state.dateValue);
     },
-    getSelectFilter(state) {
-      return state.selectFilter;
-    },
-    getFilterKeyword(state) {
-      return state.filterKeyword;
-    },
-    getDateValue(state) {
-      return state.dateValue;
-    },
-    getDateFrom(state) {
-      return state.filterDateFrom;
-    },
-    getDateTo(state) {
-      return state.filterDateTo;
-    },
-    getCancelReason(state) {
-      return state.filterCancelReason;
-    },
-    getSellerType(state) {
-      return state.mdSeNo;
-    },
-    getFilterOrder(state) {
-      return state.filterOrder;
-    },
-    getLimit(state) {
-      return state.filterLimit;
-    },
-    getPage(state) {
-      return state.page;
-    },
-    getIsLoading(state) {
-      return state.isLoading;
-    },
-    getNamespace(state) {
-      return state.namespace;
-    },
-    getResult(state) {
-      return state.filteredResult;
-    },
-    getLastPage(state) {
-      return state.page_number;
-    },
-    getTotalNumber(state) {
-      return state.total_order_number;
+    getValue: state => key => {
+      return state[key];
     }
   },
 
   mutations: {
-    setSelectFilter(state, value) {
-      state.selectFilter = value;
-    },
-    setFilterKeyword(state, value) {
-      state.filterKeyword = value;
-    },
-    setDateValue(state, value) {
-      state.dateValue = value;
-    },
-    setDateFrom(state, value) {
-      state.filterDateFrom = value;
-    },
-    setDateTo(state, value) {
-      state.filterDateTo = value;
-    },
-    setCancelReason(state, value) {
-      state.filterCancelReason = value;
-    },
-    setSellerType(state, values) {
-      state.mdSeNo = values;
-    },
-    setFilterOrder(state, value) {
-      state.filterOrder = value;
-    },
-    setLimit(state, value) {
-      state.filterLimit = value;
-    },
-    setPage(state, value) {
-      state.page = value;
-    },
-    setResult(state, result) {
-      state.filteredResult = result;
-    },
-    setIsLoading(state, value) {
-      state.isLoading = value;
-    },
-    setNamespace(state, value) {
-      state.namespace = value;
-    },
-    setLastPage(state, value) {
-      state.page_number = value;
-    },
-    setTotalNumber(state, value) {
-      state.total_order_number = value;
+    setValue(state, { key, value }) {
+      state[key] = value;
     },
     reset(state) {
       const defaultTerm = 3;
@@ -153,67 +55,46 @@ export default {
   },
 
   actions: {
-    setSelectFilter({ commit }, value) {
-      commit('setSelectFilter', value);
-    },
-    setFilterKeyword({ commit }, value) {
-      commit('setFilterKeyword', value);
-    },
-    setDateValue({ commit }, value) {
-      commit('setDateValue', value);
-    },
-    setDateFrom({ commit }, value) {
-      commit('setDateFrom', value);
-    },
-    setDateTo({ commit }, value) {
-      commit('setDateTo', value);
-    },
-    setCancelReason({ commit }, value) {
-      commit('setCancelReason', value);
-    },
-    setSellerType({ commit }, values) {
-      commit('setSellerType', values);
-    },
-    setFilterOrder({ commit }, value) {
-      commit('setFilterOrder', value);
-    },
-    setLimit({ commit }, value) {
-      commit('setLimit', value);
-    },
-    setPage({ commit }, value) {
-      commit('setPage', value);
-    },
-    setNamespace({ commit }, value) {
-      commit('setNamespace', value);
+    setValue({ commit }, payload) {
+      commit('setValue', payload);
     },
     search({ commit, state }, status) {
-      commit('setIsLoading', true);
+      commit('setValue', { key: 'isLoading', value: true });
       const filters = makeUp(state);
 
       orderApi
         .getOrder(status, filters)
         .then(res => {
-          console.log(res);
-          commit('setResult', res.data.orders);
-          commit('setLastPage', res.data.page_number);
-          commit('setTotalNumber', res.data.total_order_number);
-          commit('setIsLoading', false);
+          commit('setValue', { key: 'filteredResult', value: res.data.orders });
+          commit('setValue', {
+            key: 'page_number',
+            value: res.data.page_number
+          });
+          commit('setValue', {
+            key: 'total_order_number',
+            value: res.data.total_order_number
+          });
+          setTimeout(() => {
+            commit('setValue', { key: 'isLoading', value: false });
+          }, 300);
         })
         .catch(err => {
           console.error(err);
-          commit('setIsLoading', false);
+          setTimeout(() => {
+            commit('setValue', { key: 'isLoading', value: false });
+          }, 300);
         });
     },
     searchByOrder({ commit, dispatch }, { status, order }) {
-      commit('setFilterOrder', order);
+      commit('setValue', { key: 'filterOrder', value: order });
       dispatch('search', status);
     },
     searchByLimit({ commit, dispatch }, { status, limit }) {
-      commit('setLimit', limit);
+      commit('setValue', { key: 'filterLimit', value: limit });
       dispatch('search', status);
     },
     searchByPage({ commit, dispatch }, { status, page }) {
-      commit('setPage', page);
+      commit('setValue', { key: 'page', value: page });
       dispatch('search', status);
     },
     reset({ commit }) {
