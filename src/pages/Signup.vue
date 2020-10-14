@@ -267,8 +267,6 @@ export default {
           }
         })
         .catch(err => {
-          console.log(err.response);
-          console.log(err.response.data);
           if (err.response.data['MESSAGE'] === 'DUPLICATED ID') {
             this.isLoading = false;
             this.serverID = this.infoInput.seller_loginID;

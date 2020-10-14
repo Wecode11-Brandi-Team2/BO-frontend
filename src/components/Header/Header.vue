@@ -137,14 +137,6 @@ header {
       background-clip: padding-box;
       z-index: 1000;
 
-      // .active {
-      //   display: block;
-      // }
-
-      // &:hover {
-      //   background-color: #eee;
-      // }
-
       a {
         clear: both;
         padding: 6px 0 6px 13px;
