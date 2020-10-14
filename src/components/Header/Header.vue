@@ -89,7 +89,6 @@ header {
     height: 45px;
     padding: 0 10px;
     margin-right: 20px;
-    border: 1px solid red;
     cursor: pointer;
 
     &:hover {
@@ -97,7 +96,6 @@ header {
     }
 
     .transparent {
-      border: 2px solid blue;
       position: absolute;
       top: 0;
       width: 100%;
