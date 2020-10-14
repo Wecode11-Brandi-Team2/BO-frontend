@@ -1,6 +1,5 @@
 <template>
   <div class="table">
-    <TableLoading v-if="!loadingStatus" />
     <div class="button-block">
       <div>
         <br />
@@ -25,6 +24,7 @@
     </div>
     <div class="table-container">
       <table>
+        <TableLoading v-if="!loadingStatus" />
         <thead>
           <tr>
             <th>
@@ -37,8 +37,8 @@
               </div>
             </th>
 
-            <th :key="orderMap[header]" v-for="header of table.table_headers">
-              {{ orderMap[header] }}
+            <th :key="tableMap[header]" v-for="header of table.table_headers">
+              {{ tableMap[header] }}
             </th>
           </tr>
         </thead>
@@ -50,7 +50,7 @@
                 <input
                   type="text"
                   style="width:50px"
-                  v-model="filterCondtion.coupon_id"
+                  v-model="filterCondtion[tableId]"
                 />
               </div>
             </td>
@@ -59,7 +59,7 @@
                 <input
                   type="text"
                   style="width:150px"
-                  v-model="filterCondtion.coupon_name"
+                  v-model="filterCondtion[tableId]"
                 />
               </div>
             </td>
@@ -149,7 +149,7 @@
               </div>
             </td>
           </tr>
-          <tr :key="coupon.coupon_id" v-for="coupon of couponData">
+          <tr :key="coupon[tableId]" v-for="coupon of couponData">
             <td>
               <div class="check-header">
                 <input type="checkbox" class="allCheck" />
@@ -185,11 +185,11 @@
 import TableLoading from '@/components/Loading/TableLoading';
 import CouponPagination from '@/components/Main/Pagination/CouponPagination';
 import { couponApi } from '@/api';
-import { orderMap } from '@/assets/textMap';
 export default {
   components: { CouponPagination, TableLoading },
-  props: { table: Object },
+  props: { table: Object, tableMap: Object, tableId: String },
   data() {
+    console.log(this.table, this.tableMap, this.tableId);
     return {
       filterCondtion: {
         coupon_id: '',
@@ -206,16 +206,50 @@ export default {
         coupon_is_limited: -1
       },
       loadingStatus: false,
+      selected: [],
       couponData: [],
-      orderMap,
       inquiry: undefined,
-      all: false,
       length: this.table.table_headers.length,
       curPage: 1,
       lastPage: 100
     };
   },
+  computed: {
+    all() {
+      return (
+        this.selected.length !== 0 &&
+        this.selected.length === this.result.length
+      );
+    }
+  },
   methods: {
+    checkAll() {
+      const newSelected = [];
+      for (const item of this.result) {
+        newSelected.push(item[this.tableId]);
+      }
+      this.selected = newSelected;
+    },
+    resetAll() {
+      this.selected = [];
+    },
+    setAll() {
+      if (this.all) {
+        this.resetAll();
+      } else {
+        this.checkAll();
+      }
+    },
+    setSelected(key) {
+      const newSelected = [...this.selected];
+      let index;
+      if ((index = newSelected.indexOf(key)) !== -1) {
+        newSelected.splice(index, 1);
+      } else {
+        newSelected.push(key);
+      }
+      this.selected = newSelected.sort((a, b) => a - b);
+    },
     handleCurPage(page) {
       this.curPage = page;
       this.loadingStatus = false;
@@ -259,9 +293,14 @@ export default {
       this.filterCondtion.coupon_download_end_to = '';
       this.filterCondtion.coupon_issue_type = -1;
       this.filterCondtion.coupon_is_limited = -1;
-      setTimeout(() => {
-        this.loadingStatus = true;
-      }, 350);
+      couponApi.getCoupons(this.filterCondtion, this.curPage).then(res => {
+        this.couponData = res.data.coupons;
+        this.inquiry = res.data.total_coupon_num;
+        this.lastPage = Math.ceil(res.data.total_coupon_num / 10);
+        setTimeout(() => {
+          this.loadingStatus = true;
+        }, 350);
+      });
     }
   },
   created: function() {
@@ -280,6 +319,8 @@ export default {
 
 <style lang="scss" scoped>
 .table {
+  position: relative;
+
   .button-block {
     display: flex;
     justify-content: space-between;
@@ -329,6 +370,7 @@ export default {
     margin: 10px 0;
 
     table {
+      position: relative;
       width: 100%;
       border: 1px solid #ddd;
       border-collapse: collapse;
@@ -439,6 +481,9 @@ export default {
             border: 1px solid white;
             margin: 5px 0;
             cursor: pointer;
+            &:focus {
+              outline: none;
+            }
           }
         }
       }

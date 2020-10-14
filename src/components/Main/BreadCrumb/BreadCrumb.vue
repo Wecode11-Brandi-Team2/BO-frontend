@@ -10,7 +10,7 @@
         {{ sub }}
       </li>
     </ul>
-    <div class="sort-box">
+    <div v-if="sort && limit" class="sort-box">
       <Sort :options="sort" :orderStatus="orderStatus" />
       <Limit :options="limit" :orderStatus="orderStatus" />
     </div>

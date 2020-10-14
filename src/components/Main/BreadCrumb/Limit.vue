@@ -31,7 +31,7 @@ export default {
   computed: {
     ...mapState({
       getLimit(state, getters) {
-        return getters[NAMESPACE[this.namespace] + `/getLimit`];
+        return getters[NAMESPACE[this.namespace] + `/getValue`]('filterLimit');
       }
     }),
     limit() {

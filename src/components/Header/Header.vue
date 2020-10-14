@@ -1,6 +1,6 @@
 <template>
   <header @mouseover="Active">
-    <div class="page-logo">
+    <div class="page-logo" @click="toLogin">
       <a class="link-home">
         <img alt="" src="../../assets/images/brandi_logo.png" />
       </a>
@@ -45,6 +45,10 @@ export default {
     },
     deActive() {
       this.mouseActive = false;
+    },
+    toLogin() {
+      this.$router.push('/');
+      window.location.reload();
     }
   }
 };

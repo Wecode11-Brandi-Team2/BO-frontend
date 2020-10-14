@@ -53,13 +53,15 @@ export default {
   computed: {
     ...mapState({
       getDateFrom(state, getters) {
-        return getters[NAMESPACE[this.namespace] + '/getDateFrom'];
+        return getters[NAMESPACE[this.namespace] + '/getValue'](
+          'filterDateFrom'
+        );
       },
       getDateTo(state, getters) {
-        return getters[NAMESPACE[this.namespace] + '/getDateTo'];
+        return getters[NAMESPACE[this.namespace] + '/getValue']('filterDateTo');
       },
       getDateValue(state, getters) {
-        return getters[NAMESPACE[this.namespace] + '/getDateValue'];
+        return getters[NAMESPACE[this.namespace] + '/getValue']('dateValue');
       }
     }),
     from: {
@@ -84,14 +86,23 @@ export default {
   },
   methods: {
     ...mapActions({
-      setDateFrom(dispatch, payload) {
-        return dispatch(NAMESPACE[this.namespace] + '/setDateFrom', payload);
+      setDateFrom(dispatch, value) {
+        return dispatch(NAMESPACE[this.namespace] + '/setValue', {
+          key: 'filterDateFrom',
+          value
+        });
       },
-      setDateTo(dispatch, payload) {
-        return dispatch(NAMESPACE[this.namespace] + '/setDateTo', payload);
+      setDateTo(dispatch, value) {
+        return dispatch(NAMESPACE[this.namespace] + '/setValue', {
+          key: 'filterDateTo',
+          value
+        });
       },
-      setDateValue(dispatch, payload) {
-        return dispatch(NAMESPACE[this.namespace] + '/setDateValue', payload);
+      setDateValue(dispatch, value) {
+        return dispatch(NAMESPACE[this.namespace] + '/setValue', {
+          key: 'dateValue',
+          value
+        });
       }
     }),
     setChecked(value) {

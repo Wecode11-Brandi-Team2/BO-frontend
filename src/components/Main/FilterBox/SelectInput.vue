@@ -41,10 +41,12 @@ export default {
   computed: {
     ...mapState({
       getSelectFilter(state, getters) {
-        return getters[NAMESPACE[this.namespace] + '/getSelectFilter'];
+        return getters[NAMESPACE[this.namespace] + '/getValue']('selectFilter');
       },
       getFilterKeyword(state, getters) {
-        return getters[NAMESPACE[this.namespace] + '/getFilterKeyword'];
+        return getters[NAMESPACE[this.namespace] + '/getValue'](
+          'filterKeyword'
+        );
       }
     }),
     selectFilter() {
@@ -56,17 +58,17 @@ export default {
   },
   methods: {
     ...mapActions({
-      setSelectFilter(dispatch, payload) {
-        return dispatch(
-          NAMESPACE[this.namespace] + '/setSelectFilter',
-          payload
-        );
+      setSelectFilter(dispatch, value) {
+        return dispatch(NAMESPACE[this.namespace] + '/setValue', {
+          key: 'selectFilter',
+          value
+        });
       },
-      setFilterKeyword(dispatch, payload) {
-        return dispatch(
-          NAMESPACE[this.namespace] + '/setFilterKeyword',
-          payload
-        );
+      setFilterKeyword(dispatch, value) {
+        return dispatch(NAMESPACE[this.namespace] + '/setValue', {
+          key: 'filterKeyword',
+          value
+        });
       }
     }),
     setSearch(e) {

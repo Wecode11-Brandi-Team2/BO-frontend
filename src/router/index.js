@@ -11,6 +11,20 @@ import CouponLookup from '../pages/CouponLookup';
 
 Vue.use(VueRouter);
 
+const requireAuth = () => (to, from, next) => {
+  if (localStorage.getItem('access_token')) {
+    return next();
+  }
+  next('/admin/login');
+};
+
+const isAuth = () => (to, from, next) => {
+  if (localStorage.getItem('access_token')) {
+    return next('/');
+  }
+  next();
+};
+
 export const router = new VueRouter({
   mode: 'history',
   routes: [
@@ -21,41 +35,49 @@ export const router = new VueRouter({
     {
       path: '/product/regist',
       name: 'ProductRegist',
+      beforeEnter: requireAuth(),
       component: ProductRegist
     },
     {
       path: '/account/seller/modify',
       name: 'SellerModify',
+      beforeEnter: requireAuth(),
       component: SellerModify
     },
     {
       path: '/promotion/:subMenu',
       name: 'CouponLookup',
+      beforeEnter: requireAuth(),
       component: CouponLookup
     },
     {
-      path: '/account/:type',
+      path: '/account/:subMenu',
       name: 'MemberLookup',
+      beforeEnter: requireAuth(),
       component: MemberLookup
     },
     {
       path: '/admin/login',
       name: 'Login',
+      beforeEnter: isAuth(),
       component: Login
     },
     {
       path: '/admin/agreement',
       name: 'Join',
+      beforeEnter: isAuth(),
       component: Join
     },
     {
       path: '/admin/signup',
       name: 'Signup',
+      beforeEnter: isAuth(),
       component: Signup
     },
     {
       path: '/:mainMenu/:subMenu',
       name: 'Lookup',
+      beforeEnter: requireAuth(),
       component: Lookup
     }
   ]

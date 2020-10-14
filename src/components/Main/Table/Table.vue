@@ -15,6 +15,7 @@
           class="excel"
           :key="button.name"
           v-for="button of table.excel_buttons"
+          @click="getExcelFile(button.api)"
         >
           <i class="file-excel" />
           {{ button.name }}
@@ -35,28 +36,41 @@
                 <input type="checkbox" class="allCheck" />
                 <label
                   :class="['check-label', all && 'checked']"
-                  @click="setAllCheck"
+                  @click="setAll"
                 ></label>
               </div>
             </th>
             <th :key="header" v-for="header of tableHeaders">
-              {{ orderMap[header] }}
+              {{ tableMap[header] }}
             </th>
           </tr>
         </thead>
-        <tbody v-if="result.length > 0">
-          <tr :key="item.order_detail_id" v-for="item of result">
+        <tbody v-if="result && result.length > 0">
+          <tr :key="item[tableId]" v-for="item of result">
             <td>
               <div class="check-header">
                 <input type="checkbox" class="allCheck" />
                 <label
-                  :class="['check-label', all && 'checked']"
-                  @click="setAllCheck"
+                  :class="[
+                    'check-label',
+                    selected.includes(item[tableId]) && 'checked'
+                  ]"
+                  @click="setSelected(item[tableId])"
                 ></label>
               </div>
             </td>
             <td :key="header" v-for="header of tableHeaders">
-              {{ item[header] }}
+              <img
+                v-if="
+                  /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/g.test(
+                    item[header]
+                  )
+                "
+                :src="item[header]"
+                height="72px"
+                width="72px"
+              />
+              <div v-else>{{ item[header] }}</div>
             </td>
           </tr>
         </tbody>
@@ -106,45 +120,55 @@
 </template>
 
 <script>
-import { orderMap } from '@/assets/textMap';
 import Pagination from '@/components/Main/Pagination/Pagination';
 import TableLoading from '@/components/Loading/TableLoading';
 import { mapState } from 'vuex';
 import NAMESPACE from '@/store/modules/types';
+
 export default {
   components: { Pagination, TableLoading },
-  props: { table: Object, orderStatus: Number },
+  props: {
+    table: Object,
+    tableMap: Object,
+    tableId: String,
+    orderStatus: Number
+  },
   data() {
     return {
-      orderMap,
-      all: false,
+      selected: [],
       tableHeaders: this.table.table_headers,
       length: this.table.table_headers.length,
       namespace: this.$route.params.subMenu
     };
   },
+
   computed: {
     ...mapState({
       getResult(state, getters) {
-        return getters[NAMESPACE[this.namespace] + '/getResult'];
+        return getters[NAMESPACE[this.namespace] + '/getValue'](
+          'filteredResult'
+        );
       },
       getIsLoading(state, getters) {
-        return getters[NAMESPACE[this.namespace] + '/getIsLoading'];
+        return getters[NAMESPACE[this.namespace] + '/getValue']('isLoading');
       },
       getPage(state, getters) {
-        return getters[NAMESPACE[this.namespace] + '/getPage'];
+        return getters[NAMESPACE[this.namespace] + '/getValue']('page');
       },
       getLastPage(state, getters) {
-        return getters[NAMESPACE[this.namespace] + '/getLastPage'];
+        return getters[NAMESPACE[this.namespace] + '/getValue']('page_number');
       },
       getTotalNumber(state, getters) {
-        return getters[NAMESPACE[this.namespace] + '/getTotalNumber'];
+        return getters[NAMESPACE[this.namespace] + '/getValue'](
+          'total_order_number'
+        );
       }
     }),
     result() {
       return this.getResult;
     },
     isLoading() {
+      console.log(this.getIsLoading);
       return this.getIsLoading;
     },
     page() {
@@ -155,11 +179,50 @@ export default {
     },
     totalNumber() {
       return this.getTotalNumber;
+    },
+    all() {
+      return (
+        this.selected.length !== 0 &&
+        this.selected.length === this.result.length
+      );
     }
   },
   methods: {
-    setAllCheck() {
-      this.all = !this.all;
+    checkAll() {
+      const newSelected = [];
+      for (const item of this.result) {
+        newSelected.push(item[this.tableId]);
+      }
+      this.selected = newSelected;
+    },
+    resetAll() {
+      this.selected = [];
+    },
+    setAll() {
+      if (this.all) {
+        this.resetAll();
+      } else {
+        this.checkAll();
+      }
+    },
+    setSelected(key) {
+      const newSelected = [...this.selected];
+      let index;
+      if ((index = newSelected.indexOf(key)) !== -1) {
+        newSelected.splice(index, 1);
+      } else {
+        newSelected.push(key);
+      }
+      this.selected = newSelected.sort((a, b) => a - b);
+    },
+    getExcelFile(api) {
+      console.log(api);
+      const selected = this.selected.map(v => this.result[v][this.tableId]);
+      // .join(',');
+      console.log(selected);
+      api(selected)
+        .then(res => console.log(res))
+        .catch(err => console.error(err));
     }
   }
 };

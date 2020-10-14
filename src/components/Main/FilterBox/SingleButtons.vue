@@ -34,7 +34,7 @@ export default {
   computed: {
     ...mapState({
       getButton(state, getters) {
-        return getters[NAMESPACE[this.namespace] + `/get${this.filterKey}`];
+        return getters[NAMESPACE[this.namespace] + `/getValue`](this.filterKey);
       }
     }),
     button() {
@@ -44,10 +44,10 @@ export default {
   methods: {
     ...mapActions({
       setButton(dispatch, value) {
-        return dispatch(
-          NAMESPACE[this.namespace] + `/set${this.filterKey}`,
+        return dispatch(NAMESPACE[this.namespace] + `/setValue`, {
+          key: this.filterKey,
           value
-        );
+        });
       }
     }),
     setChecked(value) {

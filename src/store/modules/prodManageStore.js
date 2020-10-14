@@ -1,11 +1,10 @@
 import { productApi } from '@/api';
-import { fromNow, dateToString, makeUp } from '../_utils';
+import { fromNow, makeUp, makeQs } from '../_utils';
 
 export default {
   namespaced: true,
   state: {
     isLoading: false,
-    namespace: '',
     selectFilter: '',
     filterKeyword: '',
     filterDateFrom: fromNow(3),
@@ -24,119 +23,16 @@ export default {
 
   getters: {
     getFilters(state) {
-      const filters = { ...makeUp(state) };
-      delete filters.filterOrder;
-      delete filters.filterLimit;
-      if (filters.filterDateFrom) {
-        filters.from = dateToString(filters.filterDateFrom);
-        delete filters.filterDateFrom;
-      }
-      if (filters.filterDateTo) {
-        filters.to = dateToString(filters.filterDateTo);
-        delete filters.filterDateTo;
-      }
-      if (filters.page === 1) delete filters.page;
-      filters.mdSeNo = filters.mdSeNo.join(',');
-      return filters;
+      return makeQs(state);
     },
-    getSelectFilter(state) {
-      return state.selectFilter;
-    },
-    getFilterKeyword(state) {
-      return state.filterKeyword;
-    },
-    getSellerName(state) {
-      return state.mdName;
-    },
-    getDateFrom(state) {
-      return state.filterDateFrom;
-    },
-    getDateTo(state) {
-      return state.filterDateTo;
-    },
-    getSellerType(state) {
-      return state.mdSeNo;
-    },
-    getDiscountYn(state) {
-      return state.discountYn;
-    },
-    getExhibitionYn(state) {
-      return state.exhibitionYn;
-    },
-    getSellYn(state) {
-      return state.sellYn;
-    },
-    getLimit(state) {
-      return state.filterLimit;
-    },
-    getPage(state) {
-      return state.page;
-    },
-    getIsLoading(state) {
-      return state.isLoading;
-    },
-    getNamespace(state) {
-      return state.namespace;
-    },
-    getResult(state) {
-      return state.filteredResult;
-    },
-    getLastPage(state) {
-      return state.page_number;
-    },
-    getTotalNumber(state) {
-      return state.total_order_number;
+    getValue: state => key => {
+      return state[key];
     }
   },
 
   mutations: {
-    setSelectFilter(state, value) {
-      state.selectFilter = value;
-    },
-    setFilterKeyword(state, value) {
-      state.filterKeyword = value;
-    },
-    setSellerName(state, value) {
-      state.mdName = value;
-    },
-    setDateFrom(state, value) {
-      state.filterDateFrom = value;
-    },
-    setDateTo(state, value) {
-      state.filterDateTo = value;
-    },
-    setSellerType(state, values) {
-      state.mdSeNo = values;
-    },
-    setDiscountYn(state, value) {
-      state.discountYn = value;
-    },
-    setExhibitionYn(state, value) {
-      state.exhibitionYn = value;
-    },
-    setSellYn(state, value) {
-      state.sellYn = value;
-    },
-    setLimit(state, value) {
-      state.filterLimit = value;
-    },
-    setPage(state, value) {
-      state.page = value;
-    },
-    setResult(state, result) {
-      state.filteredResult = result;
-    },
-    setLastPage(state, value) {
-      state.page_number = value;
-    },
-    setTotalNumber(state, value) {
-      state.total_order_number = value;
-    },
-    setIsLoading(state, value) {
-      state.isLoading = value;
-    },
-    setNamespace(state, value) {
-      state.namespace = value;
+    setValue(state, { key, value }) {
+      state[key] = value;
     },
     reset(state) {
       state.isLoading = false;
@@ -158,70 +54,42 @@ export default {
   },
 
   actions: {
-    setSelectFilter({ commit }, value) {
-      commit('setSelectFilter', value);
+    setValue({ commit }, payload) {
+      commit('setValue', payload);
     },
-    setFilterKeyword({ commit }, value) {
-      commit('setFilterKeyword', value);
-    },
-    setSellerName({ commit }, value) {
-      commit('setSellerName', value);
-    },
-    setDateFrom({ commit }, value) {
-      commit('setDateFrom', value);
-    },
-    setDateTo({ commit }, value) {
-      commit('setDateTo', value);
-    },
-    setDiscountYn({ commit }, value) {
-      commit('setDiscountYn', value);
-    },
-    setExhibitionYn({ commit }, value) {
-      commit('setExhibitionYn', value);
-    },
-    setSellYn({ commit }, value) {
-      commit('setSellYn', value);
-    },
-    setSellerType({ commit }, values) {
-      commit('setSellerType', values);
-    },
-    setLimit({ commit }, value) {
-      commit('setLimit', value);
-    },
-    setPage({ commit }, value) {
-      commit('setPage', value);
-    },
-    setNamespace({ commit }, value) {
-      commit('setNamespace', value);
-    },
-    search({ commit, state }, status) {
-      commit('setIsLoading', true);
+    search({ commit, state }) {
+      commit('setValue', { key: 'isLoading', value: true });
       const filters = makeUp(state);
 
       productApi
-        .getProducts(status, filters)
+        .getProducts(filters)
         .then(res => {
-          console.log(res);
-          commit('setResult', res.data.orders);
-          commit('setLastPage', res.data.page_number);
-          commit('setTotalNumber', res.data.total_order_number);
-          commit('setIsLoading', false);
+          commit('setValue', { key: 'filteredResult', value: res.data.orders });
+          commit('setValue', {
+            key: 'page_number',
+            value: res.data.page_number
+          });
+          commit('setValue', {
+            key: 'total_order_number',
+            value: res.data.total_order_number
+          });
+          setTimeout(() => {
+            commit('setValue', { key: 'isLoading', value: false });
+          }, 300);
         })
         .catch(err => {
           console.error(err);
-          commit('setIsLoading', false);
+          setTimeout(() => {
+            commit('setValue', { key: 'isLoading', value: false });
+          }, 300);
         });
     },
-    searchByOrder({ commit, dispatch }, { status, order }) {
-      commit('setFilterOrder', order);
-      dispatch('search', status);
-    },
     searchByLimit({ commit, dispatch }, { status, limit }) {
-      commit('setLimit', limit);
+      commit('setValue', { key: 'filterLimit', value: limit });
       dispatch('search', status);
     },
     searchByPage({ commit, dispatch }, { status, page }) {
-      commit('setPage', page);
+      commit('setValue', { key: 'page', value: page });
       dispatch('search', status);
     },
     reset({ commit }) {

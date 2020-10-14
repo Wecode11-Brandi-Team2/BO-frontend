@@ -5,7 +5,7 @@
       <small>{{ sub }}</small>
     </h3>
     <BreadCrumb />
-    <CouponTable :table="table" />
+    <CouponTable :table="table" :tableMap="tableMap" :tableId="tableId" />
   </div>
 </template>
 
@@ -21,11 +21,15 @@ export default {
   },
   data() {
     // state
-    const { main, sub, table } = path[this.$route.params.subMenu];
+    const { main, sub, table, tableMap, tableId } = path[
+      this.$route.params.subMenu
+    ];
     return {
       main,
       sub,
-      table
+      table,
+      tableMap,
+      tableId
     };
   }
 };
