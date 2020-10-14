@@ -188,8 +188,6 @@ import ButtonBlue from '../components/ButtonBlue';
 import ButtonRed from '../components/ButtonRed';
 import RadioBtn from '../components/RadioBtn';
 import Spinner from '../components/Spinner';
-import axios from 'axios';
-// import { config } from '../../config.js';
 import '../../vee-validate.js';
 import { ValidationObserver } from 'vee-validate';
 import { ValidationProvider } from 'vee-validate/dist/vee-validate.full.esm';
@@ -256,23 +254,9 @@ export default {
         ...this.submitValue,
         ['attribute_id']: this.selectedRadio
       };
-      // console.log(
-      //   'this.submitValue',
-      //   JSON.parse(JSON.stringify(this.submitValue))
-      // );
       return this.sendSubmit(this.submitValue);
     },
     sendSubmit(val) {
-      // const self = this;
-      // axios.interceptors.request.use(
-      //   function(config) {
-      //     self.isLoading = true;
-      //     return config;
-      //   },
-      //   function(error) {
-      //     return Promise.reject(error);
-      //   }
-      // );
       loginApi
         .signup(val)
         .then(res => {
@@ -290,21 +274,6 @@ export default {
             this.serverID = this.infoInput.seller_loginID;
           }
         });
-      // axios
-      //   .post(`${config.signup}/api/seller/signup`, val)
-      //   .then(res => {
-      //     if (res.status === 200) {
-      //       console.log(res);
-      //       this.isLoading = false;
-      //       this.$router.push('/admin/login');
-      //     }
-      //   })
-      //   .catch(err => {
-      //     if (err.response.data['MESSAGE'] === 'DUPLICATED ID') {
-      //       this.isLoading = false;
-      //       this.serverID = this.infoInput.seller_loginID;
-      //     }
-      //   });
     }
   }
 };
