@@ -115,7 +115,6 @@
         </button>
       </div>
     </div>
-    {{ isLoading }}
     <TableLoading v-if="isLoading" />
   </div>
 </template>

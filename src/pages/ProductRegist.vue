@@ -396,6 +396,7 @@
         <button class="cancel-btn" @click="alertCancel">취소</button>
       </div>
     </div>
+    <PageLoading v-if="!done" />
   </div>
 </template>
 
@@ -407,6 +408,7 @@ import TableCategory from '../components/ProductRegist/TableCategory';
 import TableDiscount from '../components/ProductRegist/TableDiscount';
 import FileUploader from '../components/ProductRegist/FileUploader';
 import Editor from '../components/ProductRegist/Editor';
+import PageLoading from '@/components/Loading/PageLoading';
 import { productApi } from '@/api';
 
 export default {
@@ -418,7 +420,8 @@ export default {
     TableCategory,
     TableDiscount,
     FileUploader,
-    Editor
+    Editor,
+    PageLoading
   },
   data() {
     return {
@@ -471,7 +474,8 @@ export default {
         image_3: '',
         image_4: '',
         image_5: ''
-      }
+      },
+      done: true
     };
   },
   computed: {
@@ -755,6 +759,13 @@ export default {
         this.$router.push('/');
       }
     }
+  },
+  mounted() {
+    this.done = false;
+
+    setTimeout(() => {
+      this.done = true;
+    }, 800);
   }
 };
 </script>

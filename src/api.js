@@ -8,13 +8,6 @@ const api = axios.create({
   }
 });
 
-const hapi = axios.create({
-  baseURL: 'http://10.251.1.129:5000/api',
-  headers: {
-    Authorization: localStorage.getItem('access_token')
-  }
-});
-
 export const orderApi = {
   getOrder: (status, queries) =>
     api.get('/order/filter', {
@@ -135,6 +128,6 @@ export const couponApi = {
 };
 
 export const loginApi = {
-  login: val => hapi.post('/seller/login', val),
-  signup: val => hapi.post('/seller/signup', val)
+  login: val => api.post('/seller/login', val),
+  signup: val => api.post('/seller/signup', val)
 };

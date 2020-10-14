@@ -174,10 +174,15 @@ export default {
   coupon: {
     main: '기획전/쿠폰 관리',
     sub: '쿠폰 관리',
-    table: COUPON_TB
+    table: COUPON_TB,
+    tableMap: ORDER_MAP,
+    tableId: 'coupon_id'
   },
   event: {
     main: '기획전/쿠폰 관리',
-    sub: '기획전 관리'
+    sub: '기획전 관리',
+    table: COUPON_TB,
+    tableMap: ORDER_MAP,
+    tableId: 'coupon_id'
   }
 };
