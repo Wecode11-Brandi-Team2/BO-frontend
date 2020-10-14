@@ -233,13 +233,7 @@
                 <button class="blue-btn">사진 삽입</button>
                 <span> 이미지 확장자는 JPG, PNG만 등록 가능합니다. </span>
                 <div>
-                  <!--
-                  <Editor />
-                  <textarea
-                    v-model="allInfo.detail_description"
-                    class="text-area"
-                  />
-                  -->
+                  <Editor v-model="allInfo.detail_description" />
                 </div>
               </div>
             </td>
@@ -291,7 +285,7 @@
                   type="number"
                   min="0"
                   class="price-box"
-                  v-model="allInfo.price"
+                  v-model="formattedPrice"
                   @change="validatePrice"
                 />
                 <div class="point-box">원</div>
@@ -399,7 +393,7 @@
         <button class="submit-btn" @click="submitForm" type="submit">
           등록
         </button>
-        <ButtonRed @click="alertCancel" word="취소" />
+        <button class="cancel-btn" @click="alertCancel">취소</button>
       </div>
     </div>
   </div>
@@ -407,7 +401,6 @@
 
 <script>
 import RadioBtn from '../components/RadioBtn';
-import ButtonRed from '../components/ButtonRed';
 import TableOption from '../components/ProductRegist/TableOption';
 import TableOptionDetail from '../components/ProductRegist/TableOptionDetail';
 import TableCategory from '../components/ProductRegist/TableCategory';
@@ -420,7 +413,6 @@ export default {
   name: 'ProductRegist',
   components: {
     RadioBtn,
-    ButtonRed,
     TableOption,
     TableOptionDetail,
     TableCategory,
@@ -485,6 +477,9 @@ export default {
   computed: {
     updateSearch: function() {
       return this.searchResult;
+    },
+    formattedPrice() {
+      return this.allInfo.price.toLocaleString();
     }
   },
   created() {
@@ -670,7 +665,6 @@ export default {
     // 1차 카테고리를 자식에서 선택하면 담고, 그 후에 2차 카테고리 요청
     updateFirCategory(fId) {
       this.allInfo.first_category_id = fId;
-      console.log('부모 받는함수 first', this.allInfo.first_category_id);
       if (this.allInfo.first_category_id) {
         productApi
           .getSecCategory(this.allInfo.first_category_id)
@@ -690,7 +684,6 @@ export default {
     },
     updateSecCategory(sId) {
       this.allInfo.second_category_id = sId;
-      console.log('부모 받는함수 second', this.allInfo.second_category_id);
     },
 
     // 라디오버튼 업데이트하는 함수
@@ -759,7 +752,7 @@ export default {
     },
     alertCancel() {
       if (confirm('상품 등록을 취소하시겠습니까?')) {
-        this.$route.push('/');
+        this.$router.push('/');
       }
     }
   }
@@ -812,6 +805,7 @@ export default {
   align-items: center;
   justify-content: center;
   margin-top: 30px;
+  margin-bottom: 50px;
 }
 
 .blue-text {
@@ -961,7 +955,7 @@ tr {
     border: 1px solid $midgrey;
     border-radius: 5px;
     background-color: $lightgrey;
-    text-indent: 5px;
+    text-indent: 4px;
   }
 
   .seller-container {
@@ -1007,8 +1001,6 @@ tr {
 
 .result-container {
   position: relative;
-  // display: flex;
-  // justify-content: center;
 
   input[type='text'] {
     width: 250px;
@@ -1111,6 +1103,22 @@ tr {
     border-radius: 5px;
   }
 
+  .cancel-btn {
+    width: 60px;
+    height: 30px;
+    border: none;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    background-color: #d9534f;
+    color: white;
+    font-family: Verdana, sans-serif;
+    font-size: 14px;
+
+    &:hover {
+      background-color: #d1493f;
+    }
+  }
+
   .caption-blue-bold {
     font-weight: 500;
     font-size: 12px;
@@ -1143,6 +1151,7 @@ tr {
     .seller-search {
       width: 300px;
       height: 30px;
+      text-indent: 4px;
       border: 1px solid $midgrey;
       border-radius: 5px;
       background-color: $softgrey;
@@ -1162,6 +1171,7 @@ tr {
     .product-info {
       width: 600px;
       height: 30px;
+      text-indent: 5px;
       border: 1px solid $midgrey;
       border-radius: 5px;
     }

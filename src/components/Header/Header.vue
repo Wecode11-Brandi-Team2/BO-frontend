@@ -1,18 +1,20 @@
 <template>
-  <header>
+  <header @mouseover="Active">
     <div class="page-logo">
       <a class="link-home">
         <img alt="" src="../../assets/images/brandi_logo.png" />
       </a>
     </div>
-    <div class="logout">
-      <span class="username">intern_master</span>
-      <i class="fa fa-angle-down" />
-      <div class="dropdown">
-        <a href="#">
-          <i class="fa fa-key" />
-          <span>log out</span>
-        </a>
+    <div class="transparent" @mouseover="toggleDrop" @mouseleave="deActive">
+      <div class="logout">
+        <span class="username">intern_master</span>
+        <i class="fa fa-angle-down" />
+        <div class="dropdown" v-show="dropOpen">
+          <a href="#">
+            <i class="fa fa-key" />
+            <span>log out</span>
+          </a>
+        </div>
       </div>
     </div>
   </header>
@@ -22,8 +24,28 @@
 export default {
   data() {
     return {
-      mouseActive: false
+      mouseActive: true,
+      dropOpen: false
     };
+  },
+  methods: {
+    toggleDrop() {
+      if (this.mouseActive) {
+        this.dropOpen = true;
+      } else {
+        this.dropOpen = false;
+      }
+      // this.mouseActive = false;
+    },
+    // closeDrop() {
+    //   this.dropOpen = false;
+    // },
+    Active() {
+      this.mouseActive = true;
+    },
+    deActive() {
+      this.mouseActive = false;
+    }
   }
 };
 </script>
@@ -43,6 +65,7 @@ header {
   background: #873b53;
   box-shadow: none;
   z-index: 1200;
+  font-family: sans-serif;
 
   .page-logo {
     display: flex;
@@ -59,8 +82,10 @@ header {
   }
 
   .logout {
+    position: relative;
     display: flex;
     align-items: center;
+    width: 150px;
     height: 45px;
     padding: 0 10px;
     margin-right: 20px;
@@ -68,6 +93,13 @@ header {
 
     &:hover {
       background: #414247;
+    }
+
+    .transparent {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      height: 150px;
     }
 
     .username {
@@ -88,11 +120,11 @@ header {
 
     .dropdown {
       position: absolute;
-      top: 100%;
+      top: 45px;
       right: 0;
       left: auto;
-      display: none;
       min-width: 160px;
+      height: 100px;
       padding: 5px 0;
       border: 1px solid rgba(0, 0, 0, 0.15);
       border-radius: 4px;
@@ -105,13 +137,13 @@ header {
       background-clip: padding-box;
       z-index: 1000;
 
-      .active {
-        display: block;
-      }
+      // .active {
+      //   display: block;
+      // }
 
-      &:hover {
-        background-color: #eee;
-      }
+      // &:hover {
+      //   background-color: #eee;
+      // }
 
       a {
         clear: both;

@@ -59,7 +59,7 @@ export default [
     name: '기획전/쿠폰관리',
     param: 'promotion',
     sub: [
-      { name: '기획전 관리',param: 'event',url: '/promotion/event' },
+      { name: '기획전 관리', param: 'event', url: '/promotion/event' },
       { name: '쿠폰 관리', param: 'coupon', url: '/promotion/coupon' }
     ]
   },

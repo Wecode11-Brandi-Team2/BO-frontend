@@ -126,6 +126,8 @@ export const couponApi = {
     return api.get(requestUrl);
   },
   getTotalNumber: () => api.get('/coupon/count')
+};
+
 export const loginApi = {
   login: val => hapi.post('/seller/login', val),
   signup: val => hapi.post('/seller/signup', val)

@@ -6,6 +6,7 @@
         <h2>파일을 업로드 했습니다.</h2>
         <div class="reset-btn" @click="reset()">재업로드</div>
       </div>
+
       <img
         v-show="uploadedFiles.imagePreviewUrl"
         class="uploadedImg"
@@ -31,6 +32,9 @@
       v-show="isInitial || isSaving"
     >
       <div class="dropbox">
+        <div class="main-btn" v-if="fileIdx === 'image_1'">
+          대표 이미지 등록
+        </div>
         <input
           v-show="isInitial"
           @change="emitFile($event)"
@@ -118,24 +122,8 @@ export default {
       } else {
         this.currentStatus = STATUS_FAILED;
       }
-      // axios
-      //   .post('http://10.58.4.234:5000/api/product', formData)
-      //   .then(res => {
-      //     console.log(res);
-      //     console.log(this.uploadedFiles);
-      //     this.uploadedFiles = [].concat(res);
-      //     this.currentStatus = STATUS_SUCCESS;
-      //   })
-      //   .catch(err => {
-      //     console.log(err);
-      //     this.uploadError = err.response;
-      //     this.currentStatus = STATUS_FAILED;
-      //   });
     }
   }
-  // mounted() {
-  //     this.reset();
-  // }
 };
 </script>
 
@@ -144,7 +132,6 @@ export default {
 @import '../../styles/commonD.scss';
 
 .container {
-  // position: relative;
   margin: 10px;
   z-index: 100;
 }
@@ -183,6 +170,7 @@ export default {
   margin: 0;
   width: 200px;
   height: 200px;
+  border: 1px solid $midgrey;
   object-fit: cover;
 
   &:hover {
@@ -190,10 +178,21 @@ export default {
   }
 }
 
+.main-btn {
+  @include blue-btn;
+  position: absolute;
+  top: 120px;
+  left: 40px;
+  border-radius: 5px;
+  padding: 10px;
+  z-index: 55;
+  pointer-events: none;
+}
+
 .dropbox {
   width: 200px;
   height: 200px;
-  border: 1px solid $midgrey; /* the dash box */
+  border: 1px solid $midgrey;
   outline: 1px solid $midgrey;
   outline-offset: -10px;
   background-color: $lightgrey;
