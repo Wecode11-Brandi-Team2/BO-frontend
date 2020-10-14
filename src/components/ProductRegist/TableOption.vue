@@ -10,7 +10,7 @@
       <tr v-for="(cell, idx) of colorcells" :key="'colorkey' + idx">
         <td
           v-show="cell.header"
-          :rowspan="cell.id === `colorRef0` && addedColor > 1 ? addedColor : 1"
+          :rowspan="cell.id === 'colorRef0' && addedColor > 1 ? addedColor : 1"
         >
           {{ cell.header }}
         </td>
@@ -160,6 +160,16 @@ export default {
           isSizeOpen: false
         }
       },
+      // colorcells: [
+      //   {
+      //     id: 'colorRef0',
+      //     header: '색상',
+      //     color: '',
+      //     isColorOpen: false,
+      //     isSizeOpen: false
+      //   }
+      // ],
+
       sizecells: {
         0: {
           id: 'sizeRef0',
