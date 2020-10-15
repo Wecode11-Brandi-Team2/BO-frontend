@@ -68,7 +68,6 @@ export default {
   methods: {
     ...mapActions({
       searchByPage(dispatch, payload) {
-        console.log(payload);
         return dispatch(NAMESPACE[this.namespace] + '/searchByPage', payload);
       }
     })

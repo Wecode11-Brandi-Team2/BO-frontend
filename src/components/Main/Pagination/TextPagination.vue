@@ -67,7 +67,6 @@ export default {
       this.$emit('searchByPage', +e.target.value);
     },
     searchByLimit(e) {
-      console.log(e);
       this.$emit('searchByLimit', +e.target.value);
     }
   }

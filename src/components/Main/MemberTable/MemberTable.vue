@@ -40,7 +40,7 @@
               </div>
             </td>
             <td :key="header" v-for="header of tableHeaders">
-              {{ item[header] }}
+              <div>{{ item[header] }}</div>
             </td>
           </tr>
         </tbody>
@@ -106,7 +106,7 @@ export default {
     checkAll() {
       const newSelected = [];
       for (const item of this.result) {
-        newSelected.push(item.order_detail_id);
+        newSelected.push(item[this.tableId]);
       }
       this.selected = newSelected;
     },
@@ -154,8 +154,6 @@ export default {
         });
     },
     searchByLimit(limit) {
-      console.log(limit);
-      console.log('here');
       this.filterLimit = limit;
       this.search();
     },

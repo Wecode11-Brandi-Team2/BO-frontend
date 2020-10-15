@@ -41,12 +41,10 @@ export default {
   methods: {
     ...mapActions({
       searchByOrder(dispatch, payload) {
-        console.log(payload);
         return dispatch(NAMESPACE[this.namespace] + `/searchByOrder`, payload);
       }
     }),
     search(e) {
-      console.log(e.target.value);
       this.searchByOrder({ status: this.orderStatus, order: e.target.value });
     }
   }

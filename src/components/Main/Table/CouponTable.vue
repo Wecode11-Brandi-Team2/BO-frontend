@@ -189,7 +189,6 @@ export default {
   components: { CouponPagination, TableLoading },
   props: { table: Object, tableMap: Object, tableId: String },
   data() {
-    console.log(this.table, this.tableMap, this.tableId);
     return {
       filterCondtion: {
         coupon_id: '',

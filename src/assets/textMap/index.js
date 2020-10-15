@@ -154,7 +154,7 @@ export default {
     sub: '회원 목록',
     table: MEMBER_TB,
     tableMap: MEMBER_MAP,
-    tableId: 'id',
+    tableId: 'login_id',
     tableTitle: '회원 리스트',
     api: accountApi.getMembers,
     resKey: 'user',

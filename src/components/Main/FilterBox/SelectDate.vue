@@ -125,7 +125,6 @@ export default {
         });
       },
       setInquiryType(dispatch, value) {
-        console.log('call setInquiryType');
         return dispatch(NAMESPACE[this.namespace] + '/setValue', {
           key: 'inquiryType',
           value
@@ -133,7 +132,6 @@ export default {
       }
     }),
     setSearch(e) {
-      console.log(e);
       this.setInquiryType(e.target.value);
     },
     setChecked(value) {

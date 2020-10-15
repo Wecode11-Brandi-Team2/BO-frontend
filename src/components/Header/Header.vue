@@ -1,15 +1,21 @@
 <template>
-  <header @mouseover="Active">
-    <div class="page-logo" @click="toLogin">
+  <header>
+    <div class="page-logo" @click="toHome">
       <a class="link-home">
         <img alt="" src="../../assets/images/brandi_logo.png" />
       </a>
     </div>
-    <div class="transparent" @mouseover="toggleDrop" @mouseleave="deActive">
+    <div class="transparent" @mouseover="setMouseOver">
       <div class="logout">
         <span class="username">intern_master</span>
         <i class="fa fa-angle-down" />
-        <div class="dropdown" v-show="dropOpen">
+        <div
+          class="dropdown"
+          @mouseover="setMouseOver"
+          @mouseleave="resetMouseOver"
+          v-if="mouseOn"
+          @click="handleLogout"
+        >
           <a href="#">
             <i class="fa fa-key" />
             <span>log out</span>
@@ -21,34 +27,33 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   data() {
     return {
-      mouseActive: true,
-      dropOpen: false
+      mouseOn: false
     };
   },
   methods: {
-    toggleDrop() {
-      if (this.mouseActive) {
-        this.dropOpen = true;
-      } else {
-        this.dropOpen = false;
+    ...mapActions({
+      logout(dispatch) {
+        return dispatch('adminStore/logout');
       }
-      // this.mouseActive = false;
+    }),
+    setMouseOver() {
+      this.mouseOn = true;
     },
-    // closeDrop() {
-    //   this.dropOpen = false;
-    // },
-    Active() {
-      this.mouseActive = true;
+    resetMouseOver() {
+      this.mouseOn = false;
     },
-    deActive() {
-      this.mouseActive = false;
-    },
-    toLogin() {
+    toHome() {
       this.$router.push('/');
       window.location.reload();
+    },
+    handleLogout() {
+      this.logout();
+      this.$router.push('/admin/login');
     }
   }
 };
