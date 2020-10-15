@@ -226,13 +226,13 @@ export default {
       }
 
       .find-pw {
-        color: $skyblue;
+        color: $midblue;
         font-size: 14px;
         font-weight: 400;
       }
 
       .fa-search {
-        color: $skyblue;
+        color: $midblue;
       }
     }
 
@@ -259,7 +259,7 @@ export default {
       height: 30px;
       border: none;
       border-radius: 5px;
-      background-color: $skyblue;
+      background-color: $midblue;
       color: white;
       font-size: 12px;
       font-weight: 400;
@@ -287,7 +287,7 @@ export default {
       font-size: 18px;
 
       span {
-        color: $skyblue;
+        color: $midblue;
       }
     }
 
@@ -297,7 +297,7 @@ export default {
 
       span {
         font-weight: 500;
-        color: $skyblue;
+        color: $midblue;
       }
     }
   }

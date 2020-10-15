@@ -243,6 +243,7 @@ export default {
       }
     },
     onSubmit() {
+      this.isLoading = true;
       const infoInputKeys = Object.keys(this.infoInput);
       for (let i in infoInputKeys) {
         this.submitValue = {
@@ -262,6 +263,7 @@ export default {
         .then(res => {
           if (res.status === 200) {
             console.log(res);
+            alert('회원가입을 축하합니다!');
             this.isLoading = false;
             this.$router.push('/admin/login');
           }
