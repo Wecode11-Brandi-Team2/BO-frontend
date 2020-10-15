@@ -18,7 +18,7 @@
         >
           <a href="#">
             <i class="fa fa-key" />
-            <span>log out</span>
+            <span>Log out</span>
           </a>
         </div>
       </div>
@@ -129,11 +129,13 @@ header {
 
     .dropdown {
       position: absolute;
+      display: flex;
+      align-items: center;
       top: 45px;
       right: 0;
       left: auto;
       min-width: 160px;
-      height: 100px;
+      height: 40px;
       padding: 5px 0;
       border: 1px solid rgba(0, 0, 0, 0.15);
       border-radius: 4px;
@@ -156,7 +158,8 @@ header {
         white-space: nowrap;
         outline: none;
 
-        .fa_key {
+        .fa-key {
+          margin-right: 12px;
           font-size: 14px;
 
           &:before {

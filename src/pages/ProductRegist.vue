@@ -636,7 +636,8 @@ export default {
           .then(res => {
             console.log(res);
             if (res.data) {
-              alert('상품이 등록이 완료되었습니다.');
+              alert('상품 등록이 완료되었습니다.');
+              this.$router.push('/product/manage');
               console.log('제출완료');
             }
           })
@@ -1018,7 +1019,7 @@ tr {
   position: relative;
 
   input[type='text'] {
-    width: 250px;
+    width: 300px;
     height: 30px;
   }
 
