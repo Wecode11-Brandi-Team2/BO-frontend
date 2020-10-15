@@ -6,7 +6,6 @@
         <h2>파일을 업로드 했습니다.</h2>
         <div class="reset-btn" @click="reset()">재업로드</div>
       </div>
-
       <img
         v-show="uploadedFiles.imagePreviewUrl"
         class="uploadedImg"
@@ -48,7 +47,6 @@
           파일을 이곳에<br />
           클릭해서 업로드해주세요.
         </p>
-        <!--SAVING-->
       </div>
     </form>
   </div>
@@ -137,8 +135,11 @@ export default {
 }
 
 .saving-box {
+  position: relative;
+  top: 0;
   width: 200px;
   height: 200px;
+  padding: 10px;
 }
 
 .success-box {

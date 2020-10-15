@@ -285,7 +285,7 @@
                   type="number"
                   min="0"
                   class="price-box"
-                  v-model="formattedPrice"
+                  v-model="allInfo.price"
                   @change="validatePrice"
                 />
                 <div class="point-box">원</div>
@@ -603,6 +603,7 @@ export default {
     submitForm() {
       if (this.submitCheck()) {
         console.log('submitform');
+
         const form = new FormData();
         // form.append('options', this.optionResult);
         form.append('image_1', this.allInfo.image_1);
@@ -635,6 +636,7 @@ export default {
           .then(res => {
             console.log(res);
             if (res.data) {
+              alert('상품이 등록이 완료되었습니다.');
               console.log('제출완료');
             }
           })
@@ -986,6 +988,8 @@ tr {
   }
 
   .selected-seller {
+    position: absolute;
+    left: 150px;
     display: flex;
     align-items: center;
     width: 250px;
@@ -1020,7 +1024,7 @@ tr {
 
   .fa-search {
     position: absolute;
-    top: 15;
+    top: 18;
     right: 10;
   }
 
