@@ -1,32 +1,31 @@
 export default {
   namespaced: true,
   state: {
-    access_token: localStorage.getItem('access_token'),
-    login: localStorage.getItem('access_token') ? true : false
+    isLogin: localStorage.getItem('access_token') ? true : false
   },
 
   getters: {
     isLogin(state) {
-      return state.login;
+      return state.isLogin;
     }
   },
 
   mutations: {
-    login(state, access_token) {
-      localStorage.setItem('access_token', access_token);
-      state.login = true;
+    login(state) {
+      state.isLogin = true;
     },
     logout(state) {
-      localStorage.removeItem('access_token');
-      state.login = false;
+      state.isLogin = false;
     }
   },
 
   actions: {
-    login({ commit }, access_token) {
-      commit('login', access_token);
+    login({ commit }, token) {
+      localStorage.setItem('access_token', token);
+      commit('login');
     },
     logout({ commit }) {
+      localStorage.removeItem('access_token');
       commit('logout');
     }
   }

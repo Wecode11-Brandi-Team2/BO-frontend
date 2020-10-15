@@ -40,7 +40,7 @@ export default {
       state.dateValue = 30;
       state.filterDateFrom = fromNow(defaultTerm);
       state.filterDateTo = new Date();
-      state.inquiryType = '';
+      state.inquiryType = -1;
       state.filterLimit = 20;
       state.page = 1;
       state.filteredResult = [];

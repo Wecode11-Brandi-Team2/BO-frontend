@@ -77,6 +77,7 @@ import {
   extend
 } from 'vee-validate/dist/vee-validate.full.esm';
 import { required } from 'vee-validate/dist/rules';
+import { mapActions } from 'vuex';
 import { loginApi } from '@/api';
 
 configure({
@@ -104,6 +105,11 @@ export default {
     };
   },
   methods: {
+    ...mapActions({
+      login(dispatch, token) {
+        return dispatch('adminStore/login', token);
+      }
+    }),
     checkValid() {
       if ((this.idValue.length === 0) | (this.pwValue.length === 0)) {
         return this.inputError === true;
@@ -115,7 +121,7 @@ export default {
         .then(res => {
           console.log(res.data);
           if (res.data.access_token) {
-            localStorage.setItem('access_token', res.data.access_token);
+            this.login(res.data.access_token);
           }
         })
         .then(() => {

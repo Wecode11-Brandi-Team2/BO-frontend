@@ -64,7 +64,6 @@ export default {
       orderApi
         .getOrder(status, filters)
         .then(res => {
-          console.log(res);
           commit('setValue', { key: 'filteredResult', value: res.data.orders });
           commit('setValue', {
             key: 'page_number',

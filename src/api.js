@@ -41,20 +41,17 @@ export const productApi = {
       }
     });
   },
-  registProduct: form => {
-    api.post('/product', form);
-  },
+  registProduct: form => api.post('/product', form),
   getProducts: (queries = {}) =>
     api.get('/product/products', {
       params: queries
     }),
-  getExcelFile: productIds => {
+  getExcelFile: productIds =>
     api.get('/product/excel', {
       params: {
         product_id: productIds
       }
-    });
-  }
+    })
 };
 
 export const inquiryApi = {

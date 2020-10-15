@@ -168,7 +168,6 @@ export default {
       return this.getResult;
     },
     isLoading() {
-      console.log(this.getIsLoading);
       return this.getIsLoading;
     },
     page() {
@@ -216,10 +215,8 @@ export default {
       this.selected = newSelected.sort((a, b) => a - b);
     },
     getExcelFile(api) {
-      console.log(api);
       const selected = this.selected.map(v => this.result[v][this.tableId]);
       // .join(',');
-      console.log(selected);
       api(selected)
         .then(res => console.log(res))
         .catch(err => console.error(err));

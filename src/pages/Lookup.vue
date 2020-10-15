@@ -45,7 +45,6 @@ export default {
       orderStatus
     } = path[this.$route.params.subMenu];
 
-    console.log(table, tableMap);
     return {
       main,
       sub,
@@ -81,7 +80,6 @@ export default {
         this.done = true;
       }, 800);
     } else {
-      console.log(this.$route.query);
       for (let [key, value] of Object.entries(this.$route.query)) {
         switch (true) {
           case /^(19|20)\d{2}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[0-1])$/.test(
@@ -90,7 +88,6 @@ export default {
             value = new Date(value);
             break;
           case key === 'mdSeNo' && value.length > 0:
-            console.log(value);
             value = value.split(',').map(v => +v);
             break;
           case /-?\d+$/.test(value):

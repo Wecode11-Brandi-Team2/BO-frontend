@@ -50,8 +50,8 @@ export default {
   },
 
   actions: {
-    setValue({ dispatch }, payload) {
-      dispatch('setValue', payload);
+    setValue({ commit }, payload) {
+      commit('setValue', payload);
     },
     search({ dispatch, state }, status) {
       dispatch('setValue', { key: 'isLoading', value: true });
