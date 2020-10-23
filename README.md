@@ -1,4 +1,4 @@
-# [Wecode 11기 기업협업 브랜디 2팀] <br /> Brandi & Brandi Admin Web Clone Project - Frontend
+# [Wecode 11기 브랜디 인턴 2팀] <br /> Brandi & Brandi Admin Web Clone Project - Frontend
 
 ## Introduction
 
