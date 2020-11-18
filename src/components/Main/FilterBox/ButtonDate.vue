@@ -131,6 +131,7 @@ export default {
   align-items: center;
   padding: 0 15px;
   margin: 5px 0;
+  margin-right: 100px;
 
   .title-box {
     width: 125px;
