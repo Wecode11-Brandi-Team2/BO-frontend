@@ -128,6 +128,7 @@ export default {
       display: flex;
       align-items: center;
     }
+
     .filter {
       min-height: 1px;
       margin: 10px 0;

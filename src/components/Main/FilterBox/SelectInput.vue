@@ -88,7 +88,7 @@ export default {
   align-items: center;
   padding: 0 15px;
   margin: 10px 0;
-  margin-right: 300px;
+  margin-right: 500px;
 
   .select-box {
     padding-right: 5px;
